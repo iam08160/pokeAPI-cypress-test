@@ -89,12 +89,11 @@ describe("Full App Runthrough", () => {
       .should("exist")
       .and("contain", "Mon not found");
   });
-  it("Input is empty", () => {
+  it("Input is empty during search", () => {
     // user clicks catch without typing a pokemon
     cy.get('[data-testid="cypress-catch"]').click();
     //error is displayed
     cy.get('[data-testid="cypress-fetch-error"]')
-      .should("exist")
       .and("contain", "Please enter a Mon");
   });
   it("Search with Enter", () => {
@@ -127,6 +126,13 @@ describe("Full App Runthrough", () => {
     cy.get('[data-testid="cypress-fetch-error"]').and(
       "contain",
       "Mon not found"
+    );
+  });
+  it("Clear with nothing in input field", () => {
+    cy.get('[data-testid="cypress-clear"]').click();
+    cy.get('[data-testid="cypress-clear-error"]').and(
+      "contain",
+      "no Mon to clear"
     );
   });
 });

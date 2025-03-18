@@ -4,6 +4,7 @@ function Search() {
   const [pokemon, setPokemon] = useState(null);
   const [input, setInput] = useState("");
   const [error, setError] = useState(null);
+  const [clearError, setClearError] = useState(null);
 
   const handleInput = (e) => setInput(e.target.value);
 
@@ -13,13 +14,15 @@ function Search() {
         if (!res.ok) {
           throw new Error("Mon not found");
         } else if (input === "") {
-          throw new Error("Please enter a Mon");
+          setClearError(null);
+          throw new Error("Please enter a Mon")
         }
         return res.json();
       })
       .then((data) => {
         setPokemon(data);
-        setError(null);
+        setError(null)
+        setClearError(null);
       })
       .catch((err) => {
         setPokemon(null);
@@ -28,6 +31,9 @@ function Search() {
   };
 
   const clearMon = () => {
+    if (pokemon === null) {
+      setClearError("no Mon to clear");
+    }
     setPokemon(null);
     setInput("");
     setError(null);
@@ -49,6 +55,7 @@ function Search() {
         Clear
       </button>
       {error && <h2 data-testid="cypress-fetch-error">{error}</h2>}
+      {clearError && <h2 data-testid="cypress-clear-error">{clearError}</h2>}
       {pokemon && (
         <div>
           <h2 data-testid="cypress-name">{pokemon.name}</h2>
