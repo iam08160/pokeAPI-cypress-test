@@ -12,6 +12,8 @@ function Search() {
       .then((res) => {
         if (!res.ok) {
           throw new Error("Mon not found");
+        } else if (input === "") {
+          throw new Error("Please enter a Mon");
         }
         return res.json();
       })
